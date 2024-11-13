@@ -1,12 +1,15 @@
 import subprocess
 
 def get_commit_dependencies(repo_path, branch_name):
-    log_command = ["git", "-C", repo_path, "log", branch_name, "--pretty=%H %P %s"]
-    log_output = subprocess.check_output(log_command).decode('utf-8').strip()
+    rev_list_command = ["git", "-C", repo_path, "rev-list", branch_name]
+    rev_list_output = subprocess.check_output(rev_list_command).decode('utf-8').strip()
+    commit_hashes = rev_list_output.splitlines()
 
     commit_data = []
-    for line in log_output.splitlines():
-        parts = line.split(" ", 2)
+    for commit_hash in commit_hashes:
+        log_command = ["git", "-C", repo_path, "log", "-n", "1", "--pretty=%H %P %s", commit_hash]
+        log_output = subprocess.check_output(log_command).decode('utf-8').strip()
+        parts = log_output.split(" ", 2)
         commit_hash = parts[0]
         parents = parts[1].split() if len(parts) > 1 else []
         message = parts[2] if len(parts) > 2 else "No message"
