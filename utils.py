@@ -19,7 +19,7 @@ def get_commit_dependencies(repo_path, branch_name):
 def generate_mermaid_graph(commit_data):
     mermaid = ["graph TD;"]
     for commit, parents, message in commit_data:
-        node = f'{commit}["{commit[:7]}..: {message}"]'
+        node = f'    {commit}["{commit[:7]}..: {message}"]'
         if not parents:
             mermaid.append(node)
         for parent in parents:
