@@ -27,7 +27,7 @@ class DependencyVisualizer:
         with open('graph.mmd', 'w') as file:
             file.write(mermaid_graph)
 
-        subprocess.run([self.config['graph_tool'], '-i', 'graph.mmd', '-o', 'graph.png'])
+        subprocess.run([self.config['graph_tool'], '-i', 'graph.mmd', '-o', f'{self.config['branch_name']}_graph.png'])
 
 
 if __name__ == "__main__":
